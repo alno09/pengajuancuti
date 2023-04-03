@@ -15,11 +15,11 @@ class CreateSuratTable extends Migration
     {
         Schema::create('surat', function (Blueprint $table) {
             $table->id('id_cuti');
-            $table->foreign('nip')->references('nip')->on('pegawai');
+            $table->integer('nip');
             $table->string('jenis_surat');
             $table->string('nama_pegawai');
             $table->string('durasi');
-            $tablee->date('tgl_mulai');
+            $table->date('tgl_mulai');
             $table->date('tgl_selesai');
             $table->string('keterangan');
             $table->date('tgl_pengajuan');

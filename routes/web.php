@@ -29,5 +29,3 @@ Route::get('/pegawai/dashboard', [PegawaiController::class, 'pegawaiDashboard'])
 Route::get('/pegawai/riwayat', [PegawaiController::class, 'pegawaiRiwayat']);
 Route::get('/pegawai/pengajuan', [PegawaiController::class, 'pegawaiAjukan']);
 Route::get('/pegawai/profil', [PegawaiController::class, 'pegawaiProfil']);
-
-
