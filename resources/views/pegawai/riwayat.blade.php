@@ -21,7 +21,7 @@
             <li class="nav-item d-flex align-items-center">
               <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
+                <span class="d-sm-inline d-none">{{ Auth::user()->name }}</span>
               </a>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -122,67 +122,6 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Sedang di Ajukan</h6>
-              </div>
-            </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID Cuti</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Jenis Cuti</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tanggal Pengajuan</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Detail</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @php $no=1; @endphp
-                    @foreach ($srt as $s)
-                    <tr>
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            {{ $no++ }}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            {{ $s->id_cuti }}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        {{ $s->jenis_surat }}
-                      </td>
-                      <td>
-                        {{ $s->created_at }}
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="btn btn-sm bg-gradient-primary">Tekan Saya</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="badge badge-sm bg-gradient-warning">Pending</span>
-                      </td>
-                    </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Riwayat Pengajuan</h6>
               </div>
             </div>
@@ -227,9 +166,19 @@
                       <td class="align-middle text-center">
                         <span class="btn btn-sm bg-gradient-primary">Tekan Saya</span>
                       </td>
-                      <td class="align-middle text-center">
-                        <span class="badge badge-sm bg-gradient-success">Disetujui</span>
-                      </td>
+                      <td>
+                        <?php
+                        if ($s->status == "Disetujui") { ?>
+                            Disetujui
+                        <?php } else { ?>
+                            <form action="{{ route('pengajuan.destroy',$s->id_cuti) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <input type="submit" value="Batalkan" class="btn-danger">
+                            </form>
+                        <?php }
+                        ?>
+                    </td>
                     </tr>
                     @endforeach
                   </tbody>

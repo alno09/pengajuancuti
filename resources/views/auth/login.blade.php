@@ -98,7 +98,7 @@
                   </div>
                   <p class="mt-4 text-sm text-center">
                     Belum punya akun ?
-                    <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Daftar</a>
+                    <a href="{{ route('register') }}">Daftar</a>
                   </p>
                 </form>
               </div>

@@ -1,4 +1,4 @@
-@extends('layouts.navbar-tempt')
+@extends('layouts.navbar-pimpinan')
 
 @section('content')
 <!-- navbar -->
@@ -7,11 +7,12 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Halaman</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Form Pengajuan</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Riwayat</li>
           </ol>
+          <h6 class="font-weight-bolder mb-0">Riwayat</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
@@ -114,53 +115,79 @@
         </div>
       </div>
     </nav>
-  <!-- end navbar -->
-  <div class="card-body">
-     <form action="/pegawai/pengajuan/simpan" method="POST">
-        @csrf
-        <div class="row d-flex justify-content-center mt-5">
-        <div class="col-md-5">
-              <main class="form-signin">
-                    <form>
-                    <h3 class="h3 mb-3 fw-normal d-flex justify-content-center">Form Pengajuan Cuti</h3>
-                    <div class="form-floating mb-2">
-                          <input type="text" class="form-control btn-black" name="jenis_surat" id="floatingInput">
-                          <label for="floatingInput">Jenis Surat</label>
-                    </div>
-
-                    <div class="form-floating mb-2">
-                          <input type="text" class="form-control btn-black" name="nip" id="floatingInput">
-                          <label for="floatingInput">NIP</label>
-                    </div>  
-
-                    <div class="form-floating mb-2">
-                          <input type="text" class="form-control btn-black" name="nama_pegawai" id="floatingInput">
-                          <label for="floatingInput">Nama Pegawai</label>
-                    </div>
-
-                    <div class="form-floating mb-2">
-                          <input type="date" class="form-control btn-black" name="tgl_mulai" id="floatingInput">
-                          <label for="floatingInput">Tanggal Mulai</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                          <input type="date" class="form-control btn-black" name="tgl_selesai" id="floatingInput">
-                          <label for="floatingInput">Tanggal Selesai</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                          <input type="text" class="form-control btn-black" name="durasi" id="floatingInput">
-                          <label for="floatingInput">Durasi</label>
-                    </div>
-                                            
-                    <div class="form-floating mb-2">
-                          <input type="text" class="form-control btn-black" name="keterangan" id="floatingInput">
-                          <label for="floatingInput">Keterangan</label>
-                    </div>
-
-                    <button class="w-100 btn btn-lg btn-primary btn-success text-dark" type="submit" value="Simpan">Submit</button>                                   
-                            </div>
+    <!-- end navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Riwayat Pengajuan</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center justify-content-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">id_cuti</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Jenis Cuti</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tanggal Pengajuan</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Detail</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @php $no=1; @endphp
+                    @foreach ($srt as $s)
+                    <tr>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            {{ $no++ }}
+                          </div>
                         </div>
-                        </form>
-                    </div>                      
+                      </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            {{ $s->id_cuti }}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        {{ $s->jenis_surat }}
+                      </td>
+                      <td>
+                        {{ $s->created_at }}
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="btn btn-sm bg-gradient-primary">Tekan Saya</span>
+                      </td>
+                      <td>
+                      <?php 
+                            if ($p->status == "Disetujui") {
+                                echo "Disetujui";
+                            } else { ?>
+                                <form action="{{ route('peminjaman.update',$p->id_pinjam) }}" method="POST">
+                                    @csrf
+                                    @method('put')
+                                    <input type="submit" name="status" value="Ditolak" class="btn-secondary">
+                                    <input type="submit" name="status" value="Disetujui" class="btn-success">
+                                </form>
+                          <?php }
+                        ?>
+                    </td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 @endsection

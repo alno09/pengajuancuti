@@ -24,6 +24,23 @@
 
 <main class="main-content  mt-0">
     <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
-        
+    <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="container">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            @if(Auth()->user()->role == 'pimpinan')
+            <li class="nav-item">
+                <h1 align="center"><a class="nav-link nav-link btn btn-dark text-light" href="{{url('pimpinan/dashboard')}}">Klik untuk mulai</a></h1>
+            </li>
+            @elseif(Auth()->user()->role == 'kadiv')
+            <li class="nav-item">
+                <h1 align="center"><a class="nav-link nav-link btn btn-dark text-light" href="{{url('dosen')}}">Klik untuk mulai</a></h1>
+            </li>
+            @elseif(Auth()->user()->role == 'pegawai')
+            <li class="nav-item">
+                <h1 align="center"><a class="nav-link btn btn-dark text-light" href="{{url('pegawai/dashboard')}}">Klik untuk mulai</a></h1>
+            </li>
+            @endif
+        </ul>
+    </div>
     </div>
 </main>
